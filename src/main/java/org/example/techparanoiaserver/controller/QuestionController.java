@@ -5,8 +5,8 @@ import org.example.techparanoiaserver.entity.Question.Question;
 import org.example.techparanoiaserver.request.QuestionCreateRequest;
 import org.example.techparanoiaserver.response.QuestionDeleteResponse;
 import org.example.techparanoiaserver.service.Question.QuestionService;
-import org.example.techparanoiaserver.utils.ProdMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,26 +28,23 @@ public class QuestionController {
     public ResponseEntity<Question> getQuestionById(@RequestParam("id") UUID id){
         return ResponseEntity.ok(questionService.getQuestionById(id));
     }
-
-    @ProdMethod
+    
     @GetMapping
     public ResponseEntity<List<Question>> getAllQuestions(){
-        return null;
+        return ResponseEntity.ok(questionService.getAllQuestions());
     }
 
-    @ProdMethod
     @GetMapping
     public ResponseEntity<List<Question>> getAllQuestionsByCategory(@RequestParam("category") Category category){
-        return null;
+        return ResponseEntity.ok(questionService.getAllQuestionByCategory(category));
     }
 
-    @ProdMethod
     @PostMapping
     public ResponseEntity<Question> createQuestion(@RequestBody QuestionCreateRequest request){
-        return null;
+        Question createdQuestion = questionService.createQuestion(request);
+        return new ResponseEntity<>(createdQuestion, HttpStatus.CREATED);
     }
 
-    @ProdMethod
     @DeleteMapping
     public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@RequestParam("id") UUID id){
         Question deletedQuestion = questionService.deleteQuestion(id);
@@ -56,6 +53,11 @@ public class QuestionController {
         response.setId(deletedQuestion.getId().toString());
 
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping
+    public ResponseEntity<Question> updateQuestion(@RequestParam("id") UUID id, @RequestBody QuestionCreateRequest request){
+        return ResponseEntity.ok(questionService.updateQuestion(id, request));
     }
 
 }

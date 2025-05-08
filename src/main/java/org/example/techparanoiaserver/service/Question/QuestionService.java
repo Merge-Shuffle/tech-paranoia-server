@@ -13,5 +13,5 @@ public interface QuestionService {
     List<Question> getAllQuestionByCategory(Category category);
     Question createQuestion(QuestionCreateRequest request);
     Question deleteQuestion(UUID id);
-    Question updateQuestion(QuestionCreateRequest request);
+    Question updateQuestion(UUID id, QuestionCreateRequest request);
 }
