@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles("test")
 public class QuestionServiceTest {
 
     @InjectMocks
@@ -111,6 +109,54 @@ public class QuestionServiceTest {
     }
 
     @Test
+    void testUpdateQuestion_whenInvalidIdProvided_returnUpdatedQuestion(){
+        //Arrange
+        Mockito.when(questionRepository.getQuestionById(Mockito.any(UUID.class)))
+                .thenReturn(Optional.empty());
+
+        //Assert & Act
+        assertThrows(NoQuestionMatchingIdFoundException.class,
+                () -> questionService.updateQuestion(UUID.randomUUID(), request));
+    }
+
+
+    @Test
+    void testDeleteQuestion_returnDeletedQuestion(){
+        //Arrange
+        UUID id = UUID.randomUUID();
+        Question question = new Question();
+        question.setId(id);
+
+        Mockito.when(questionRepository.getQuestionById(id))
+                .thenReturn(Optional.of(question));
+
+        //Act & Assert
+        Question deletedQuestion =
+                questionService.deleteQuestion(id);
+
+        Assertions.assertNotNull(deletedQuestion);
+        Assertions.assertEquals(deletedQuestion.getId(), question.getId());
+    }
+
+    @Test
+    void testGetQuestionById_whenInvalidIdProvided_throwsException() {
+        //Arrange
+        UUID id = UUID.randomUUID();
+
+
+        Mockito.when(questionRepository.getQuestionById(id))
+                .thenReturn(Optional.empty());
+
+        //Act & Assert
+
+        Assertions.assertThrows(NoQuestionMatchingIdFoundException.class,
+                () -> questionService.deleteQuestion(id));
+
+    }
+
+
+
+    @Test
     void testGetQuestionById_whenValidIdProvided_returnQuestion() {
         //Arrange
         UUID id = UUID.randomUUID();
@@ -130,6 +176,9 @@ public class QuestionServiceTest {
         Assertions.assertNotNull(returnedQuestion);
         assertEquals(id, returnedQuestion.getId());
     }
+
+
+
     @Test
     void testGetQuestionById_whenInvalidIdProvided_throwException(){
         //Arrange
@@ -139,4 +188,6 @@ public class QuestionServiceTest {
         //Assert & Act
         assertThrows(NoQuestionMatchingIdFoundException.class, () -> questionService.getQuestionById(UUID.randomUUID()));
     }
+
+
 }
