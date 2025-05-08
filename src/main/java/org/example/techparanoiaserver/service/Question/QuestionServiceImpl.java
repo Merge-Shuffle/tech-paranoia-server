@@ -92,7 +92,7 @@ public class QuestionServiceImpl implements QuestionService{
     public Question updateQuestion(UUID id, QuestionCreateRequest request) {
         Question question = getQuestionById(id);
         assignValuesFromRequest(question, request);
-        return question;
+        return questionRepository.save(question);
     }
 
 
