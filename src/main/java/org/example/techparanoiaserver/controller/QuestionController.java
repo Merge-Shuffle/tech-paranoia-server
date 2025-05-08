@@ -14,7 +14,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/questions")
 public class QuestionController {
-
+    
+    private QuestionService questionService;
 
     @Autowired
     public QuestionController(QuestionService questionService){
