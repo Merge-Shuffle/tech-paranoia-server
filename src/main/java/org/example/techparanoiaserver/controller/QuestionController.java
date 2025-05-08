@@ -1,21 +1,22 @@
 package org.example.techparanoiaserver.controller;
 
+import org.example.techparanoiaserver.entity.Question.Category;
 import org.example.techparanoiaserver.entity.Question.Question;
+import org.example.techparanoiaserver.request.QuestionCreateRequest;
 import org.example.techparanoiaserver.service.Question.QuestionService;
+import org.example.techparanoiaserver.utils.ProdMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("api/questions")
 public class QuestionController {
     
-    private QuestionService questionService;
+    private final QuestionService questionService;
 
     @Autowired
     public QuestionController(QuestionService questionService){
@@ -25,6 +26,24 @@ public class QuestionController {
     @GetMapping
     public ResponseEntity<Question> getQuestionById(@RequestParam("id") UUID id){
         return ResponseEntity.ok(questionService.getQuestionById(id));
+    }
+
+    @ProdMethod
+    @GetMapping
+    public ResponseEntity<List<Question>> getAllQuestions(){
+        return null;
+    }
+
+    @ProdMethod
+    @GetMapping
+    public ResponseEntity<List<Question>> getAllQuestionsByCategory(@RequestParam("category") Category category){
+        return null;
+    }
+
+    @ProdMethod
+    @PostMapping
+    public ResponseEntity<Question> createQuestion(@RequestBody QuestionCreateRequest request){
+        return null;
     }
 
 }
