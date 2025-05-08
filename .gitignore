@@ -26,8 +26,6 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-src/main/java/org/example/techparanoiaserver/config
-src/main/java/org/example/techparanoiaserver/exception
 !**/src/main/**/build/
 !**/src/test/**/build/
 
