@@ -27,6 +27,10 @@ public class Question {
     @Column(nullable = false)
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Category category;
+
     @ElementCollection
     @CollectionTable(
             name = "question_tags",
