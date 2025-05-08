@@ -3,6 +3,7 @@ package org.example.techparanoiaserver.controller;
 import org.example.techparanoiaserver.entity.Question.Category;
 import org.example.techparanoiaserver.entity.Question.Question;
 import org.example.techparanoiaserver.request.QuestionCreateRequest;
+import org.example.techparanoiaserver.response.QuestionDeleteResponse;
 import org.example.techparanoiaserver.service.Question.QuestionService;
 import org.example.techparanoiaserver.utils.ProdMethod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,17 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity<Question> createQuestion(@RequestBody QuestionCreateRequest request){
         return null;
+    }
+
+    @ProdMethod
+    @DeleteMapping
+    public ResponseEntity<QuestionDeleteResponse> deleteQuestion(@RequestParam("id") UUID id){
+        Question deletedQuestion = questionService.deleteQuestion(id);
+
+        QuestionDeleteResponse response = new QuestionDeleteResponse();
+        response.setId(deletedQuestion.getId().toString());
+
+        return ResponseEntity.ok(response);
     }
 
 }
