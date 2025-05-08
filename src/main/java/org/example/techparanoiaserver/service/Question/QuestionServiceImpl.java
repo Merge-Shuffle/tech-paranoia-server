@@ -12,8 +12,12 @@ import java.util.UUID;
 @Service
 public class QuestionServiceImpl implements QuestionService{
 
+    private final QuestionRepository questionRepository;
+
     @Autowired
-    private QuestionRepository questionRepository;
+    public QuestionServiceImpl(QuestionRepository questionRepository){
+        this.questionRepository = questionRepository;
+    }
 
     @Override
     public Question getQuestionById(UUID id) {
