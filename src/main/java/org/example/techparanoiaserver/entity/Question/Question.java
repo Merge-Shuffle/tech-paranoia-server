@@ -32,7 +32,7 @@ public class Question {
     @Column(nullable = false)
     private Category category;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "question_tags",
             joinColumns = @JoinColumn(name = "question_id")
@@ -41,7 +41,7 @@ public class Question {
     private Set<String> tags;
 
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<AdditionalSource> additionalSources;
 
 }
