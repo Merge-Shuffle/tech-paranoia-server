@@ -1,9 +1,8 @@
 package org.example.techparanoiaserver.service.Question;
 
-import org.example.techparanoiaserver.dto.AdditionalSourceDto;
-import org.example.techparanoiaserver.entity.Question.AdditionalSource;
 import org.example.techparanoiaserver.entity.Question.Category;
 import org.example.techparanoiaserver.entity.Question.Question;
+import org.example.techparanoiaserver.entity.Question.QuestionMapper;
 import org.example.techparanoiaserver.exception.NoQuestionMatchingIdFoundException;
 import org.example.techparanoiaserver.repository.Question.QuestionRepository;
 import org.example.techparanoiaserver.request.QuestionCreateRequest;
@@ -18,10 +17,15 @@ import java.util.UUID;
 public class QuestionServiceImpl implements QuestionService{
 
     private final QuestionRepository questionRepository;
+    private final QuestionMapper questionMapper;
 
     @Autowired
-    public QuestionServiceImpl(QuestionRepository questionRepository){
+    public QuestionServiceImpl(
+            QuestionRepository questionRepository,
+            QuestionMapper questionMapper
+                               ){
         this.questionRepository = questionRepository;
+        this.questionMapper = questionMapper;
     }
 
     @Override
@@ -56,42 +60,14 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     public Question createQuestion(QuestionCreateRequest request) {
-        Question newQuestion = new Question();
-        assignValuesFromRequest(newQuestion, request);
+        Question newQuestion = questionMapper.toQuestion(request);
         return questionRepository.save(newQuestion);
-    }
-
-    private void assignValuesFromRequest(Question question, QuestionCreateRequest request){
-        question.setTags(request.getTags());
-        question.setTitle(request.getTitle());
-        question.setContent(request.getContent());
-        question.setCategory(request.getCategory());
-        question.setDifficulty(request.getDifficulty());
-
-        List<AdditionalSource> mappedSources =
-                mapToAdditionalSourcesList(request.getAdditionalSources(), question);
-
-        question.setAdditionalSources(mappedSources);
-    }
-
-    private List<AdditionalSource> mapToAdditionalSourcesList(List<AdditionalSourceDto> list, Question question){
-        return list.stream()
-                .map(e -> mapToAdditionalSource(e, question))
-                .toList();
-    }
-
-    private AdditionalSource mapToAdditionalSource(AdditionalSourceDto additionalSourceDto, Question question){
-        AdditionalSource additionalSource = new AdditionalSource();
-        additionalSource.setSourceType(additionalSourceDto.getSourceType());
-        additionalSource.setUrl(additionalSourceDto.getUrl());
-        additionalSource.setQuestion(question);
-        return additionalSource;
     }
 
     @Override
     public Question updateQuestion(UUID id, QuestionCreateRequest request) {
         Question question = getQuestionById(id);
-        assignValuesFromRequest(question, request);
+        question = questionMapper.updateProperties(request, question);
         return questionRepository.save(question);
     }
 
