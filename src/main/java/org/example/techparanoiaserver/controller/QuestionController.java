@@ -24,7 +24,7 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    @GetMapping
+    @GetMapping("/details")
     public ResponseEntity<Question> getQuestionById(@RequestParam("id") UUID id){
         return ResponseEntity.ok(questionService.getQuestionById(id));
     }
@@ -34,7 +34,7 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.getAllQuestions());
     }
 
-    @GetMapping
+    @GetMapping("/by_category")
     public ResponseEntity<List<Question>> getAllQuestionsByCategory(@RequestParam("category") Category category){
         return ResponseEntity.ok(questionService.getAllQuestionByCategory(category));
     }

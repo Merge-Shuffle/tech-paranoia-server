@@ -188,6 +188,4 @@ public class QuestionServiceTest {
         //Assert & Act
         assertThrows(NoQuestionMatchingIdFoundException.class, () -> questionService.getQuestionById(UUID.randomUUID()));
     }
-
-
 }
