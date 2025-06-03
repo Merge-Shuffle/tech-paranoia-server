@@ -25,7 +25,7 @@ public class Question {
     private QuestionDifficulty difficulty;
 
     @Lob
-    @Column(columnDefinition = "CLOB", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
