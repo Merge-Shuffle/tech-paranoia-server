@@ -1,5 +1,6 @@
 package org.example.techparanoiaserver.controller;
 
+import jakarta.validation.Valid;
 import org.example.techparanoiaserver.entity.Question.Category;
 import org.example.techparanoiaserver.entity.Question.Question;
 import org.example.techparanoiaserver.request.QuestionCreateRequest;
@@ -40,7 +41,7 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<Question> createQuestion(@RequestBody QuestionCreateRequest request){
+    public ResponseEntity<Question> createQuestion(@RequestBody @Valid QuestionCreateRequest request){
         Question createdQuestion = questionService.createQuestion(request);
         return new ResponseEntity<>(createdQuestion, HttpStatus.CREATED);
     }
@@ -56,7 +57,7 @@ public class QuestionController {
     }
 
     @PatchMapping
-    public ResponseEntity<Question> updateQuestion(@RequestParam("id") UUID id, @RequestBody QuestionCreateRequest request){
+    public ResponseEntity<Question> updateQuestion(@RequestParam("id") UUID id, @RequestBody @Valid QuestionCreateRequest request){
         return ResponseEntity.ok(questionService.updateQuestion(id, request));
     }
 
