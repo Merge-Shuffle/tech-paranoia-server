@@ -1,10 +1,13 @@
 package org.example.techparanoiaserver.exception;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -15,8 +18,20 @@ public class GlobalExceptionHandler {
                 .body(exception.getMessage());
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handle(DataIntegrityViolationException exception){
-        return null;
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException exception){
+        var errors = new HashMap<String, String>();
+
+        exception.getBindingResult().getAllErrors()
+                .forEach(error -> {
+                    var field = ((FieldError) error).getField();
+                    var errorMessage = error.getDefaultMessage();
+                    errors.put(field, errorMessage);
+                });
+
+        return ResponseEntity.badRequest()
+                .body(new ErrorResponse(errors));
     }
+
+
 }

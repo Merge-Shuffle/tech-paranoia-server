@@ -11,13 +11,13 @@ import java.util.Set;
 
 @Data
 public class QuestionCreateRequest {
-    @NotNull
+    @NotNull(message = "Title can not be null")
     private String title;
-    @NotNull
+    @NotNull(message = "Difficulty can not be null")
     private QuestionDifficulty difficulty;
-    @NotNull
+    @NotNull(message = "Category can not be null")
     private Category category;
-    @NotNull
+    @NotNull(message = "Content can not be null")
     private String content;
     private Set<String> tags;
     private List<AdditionalSourceDto> additionalSources;

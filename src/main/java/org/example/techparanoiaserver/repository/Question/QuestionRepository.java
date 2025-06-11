@@ -16,7 +16,7 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
     @EntityGraph(
             attributePaths = "additionalSources"
     )
-    @Query(value = "select * from questions", nativeQuery = true)
+    @Query(value = "FROM Question Q")
     List<Question> findAll();
 
     List<Question> findAllByCategory(Category category);
