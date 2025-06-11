@@ -40,7 +40,6 @@ public class Question {
     @Column(name = "tag")
     private Set<String> tags;
 
-
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<AdditionalSource> additionalSources;
 

@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+//todo: handle title duplication
+
 @Service
 public class QuestionServiceImpl implements QuestionService{
 
