@@ -2,10 +2,12 @@ package org.example.techparanoiaserver.entity.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.techparanoiaserver.entity.role.Role;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
@@ -46,15 +48,20 @@ public class User implements Principal, UserDetails {
     @Column(insertable = false)
     private LocalDateTime lastModifiedAt;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+
 
     @Override
     public String getName() {
-        return "";
+        return email;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles.stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .toList();
     }
 
     @Override
