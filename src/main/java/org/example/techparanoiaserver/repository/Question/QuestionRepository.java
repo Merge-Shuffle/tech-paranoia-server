@@ -20,4 +20,6 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
     List<Question> findAll();
 
     List<Question> findAllByCategory(Category category);
+
+    Optional<Question> findByTitleAndCategory(String title, Category category);
 }

@@ -33,5 +33,11 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(errors));
     }
 
+    @ExceptionHandler(QuestionTitleInUseException.class)
+    public ResponseEntity<String> handle(QuestionTitleInUseException exception){
+        return ResponseEntity.badRequest()
+                .body(exception.getMessage());
+    }
+
 
 }
