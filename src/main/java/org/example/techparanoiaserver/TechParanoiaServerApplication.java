@@ -1,6 +1,6 @@
 package org.example.techparanoiaserver;
 
-import org.example.techparanoiaserver.entity.role.Role;
+import org.example.techparanoiaserver.entity.user.role.Role;
 import org.example.techparanoiaserver.repository.user.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

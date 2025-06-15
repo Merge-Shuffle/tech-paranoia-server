@@ -1,6 +1,6 @@
 package org.example.techparanoiaserver.repository.user;
 
-import org.example.techparanoiaserver.entity.role.Role;
+import org.example.techparanoiaserver.entity.user.role.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

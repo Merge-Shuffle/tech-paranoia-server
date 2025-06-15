@@ -1,7 +1,7 @@
 package org.example.techparanoiaserver.response;
 
 import lombok.Builder;
-import org.example.techparanoiaserver.entity.role.Role;
+import org.example.techparanoiaserver.entity.user.role.Role;
 
 import java.time.LocalDate;
 import java.util.List;

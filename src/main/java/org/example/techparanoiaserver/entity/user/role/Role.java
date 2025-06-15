@@ -1,4 +1,4 @@
-package org.example.techparanoiaserver.entity.role;
+package org.example.techparanoiaserver.entity.user.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

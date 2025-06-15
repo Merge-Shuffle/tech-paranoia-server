@@ -2,7 +2,7 @@ package org.example.techparanoiaserver.entity.user;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.techparanoiaserver.entity.role.Role;
+import org.example.techparanoiaserver.entity.user.role.Role;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
