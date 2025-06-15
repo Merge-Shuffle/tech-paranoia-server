@@ -38,8 +38,8 @@ public class User implements Principal, UserDetails {
     private String password;
     private LocalDate dateOfBirth;
 
-    private boolean accountLocked;
-    private boolean enabled;
+    private Boolean accountLocked = false;
+    private Boolean enabled = false;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)

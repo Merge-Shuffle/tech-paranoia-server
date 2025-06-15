@@ -17,14 +17,14 @@ public class AuthController {
 
     private final AuthService service;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> register(
             @RequestBody @Valid RegisterRequest request
     ) {
         return new ResponseEntity<>(service.registerUser(request), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
             @RequestBody @Valid LoginRequest request
     ) {

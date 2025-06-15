@@ -1,5 +1,6 @@
 package org.example.techparanoiaserver.entity.role;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.techparanoiaserver.entity.user.User;
@@ -32,5 +33,6 @@ public class Role {
     private LocalDateTime lastModifiedDate;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private List<User> users;
 }
