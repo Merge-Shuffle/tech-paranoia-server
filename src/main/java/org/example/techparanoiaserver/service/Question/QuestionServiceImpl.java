@@ -4,6 +4,7 @@ import org.example.techparanoiaserver.entity.Question.Category;
 import org.example.techparanoiaserver.entity.Question.Question;
 import org.example.techparanoiaserver.entity.Question.QuestionMapper;
 import org.example.techparanoiaserver.exception.NoQuestionMatchingIdFoundException;
+import org.example.techparanoiaserver.exception.QuestionTitleInUseException;
 import org.example.techparanoiaserver.repository.Question.QuestionRepository;
 import org.example.techparanoiaserver.request.QuestionCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,14 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     public Question createQuestion(QuestionCreateRequest request) {
+
+        Optional<Question> questionOptional =
+                questionRepository.findByTitleAndCategory(request.getTitle(), request.getCategory());
+
+        if (questionOptional.isPresent()) {
+            throw new QuestionTitleInUseException(request.getTitle(), request.getCategory(), questionOptional.get().getId());
+        }
+
         Question newQuestion = questionMapper.toQuestion(request);
         return questionRepository.save(newQuestion);
     }
