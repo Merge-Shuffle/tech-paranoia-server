@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.techparanoiaserver.request.LoginRequest;
 import org.example.techparanoiaserver.request.RegisterRequest;
 import org.example.techparanoiaserver.response.LoginResponse;
+import org.example.techparanoiaserver.response.RegisterResponse;
 import org.example.techparanoiaserver.service.auth.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class AuthController {
     private final AuthService service;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(
+    public ResponseEntity<RegisterResponse> register(
             @RequestBody @Valid RegisterRequest request
     ) {
         return new ResponseEntity<>(service.registerUser(request), HttpStatus.CREATED);

@@ -2,6 +2,7 @@ package org.example.techparanoiaserver.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,5 +40,9 @@ public class GlobalExceptionHandler {
                 .body(exception.getMessage());
     }
 
-
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handle(BadCredentialsException exception){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(exception.getMessage());
+    }
 }
