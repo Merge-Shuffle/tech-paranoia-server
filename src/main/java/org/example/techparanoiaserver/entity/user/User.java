@@ -51,6 +51,8 @@ public class User implements Principal, UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserQuestion> questions;
 
     @Override
     public String getName() {

@@ -2,6 +2,7 @@ package org.example.techparanoiaserver.entity.Question;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.techparanoiaserver.entity.user.UserQuestion;
 
 import java.util.List;
 import java.util.Set;
@@ -42,5 +43,8 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<AdditionalSource> additionalSources;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserQuestion> user;
 
 }
