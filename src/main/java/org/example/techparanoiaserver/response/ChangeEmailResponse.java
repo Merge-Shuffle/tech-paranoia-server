@@ -1,4 +1,8 @@
 package org.example.techparanoiaserver.response;
 
-public class ChangeEmailResponse {
-}
+import lombok.Builder;
+
+@Builder
+public record ChangeEmailResponse(
+        String jwt
+) { }

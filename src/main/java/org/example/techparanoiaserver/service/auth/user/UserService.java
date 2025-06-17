@@ -8,5 +8,5 @@ import org.springframework.security.core.Authentication;
 
 public interface UserService {
     ChangePasswordResponse changePassword(ChangePasswordRequest request, Authentication connectedUser);
-    ChangeEmailResponse changeEmail(ChangeEmailRequest request);
+    ChangeEmailResponse changeEmail(ChangeEmailRequest request, Authentication connectedUser);
 }

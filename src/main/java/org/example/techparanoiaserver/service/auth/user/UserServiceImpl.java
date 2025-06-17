@@ -1,7 +1,10 @@
 package org.example.techparanoiaserver.service.auth.user;
 
 import lombok.RequiredArgsConstructor;
+import org.example.techparanoiaserver.config.jwt.JwtService;
 import org.example.techparanoiaserver.entity.user.User;
+import org.example.techparanoiaserver.exception.EmailAlreadyInUseException;
+import org.example.techparanoiaserver.exception.OperationNotPermittedException;
 import org.example.techparanoiaserver.repository.user.UserRepository;
 import org.example.techparanoiaserver.request.ChangeEmailRequest;
 import org.example.techparanoiaserver.request.ChangePasswordRequest;
@@ -12,11 +15,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Override
     public ChangePasswordResponse changePassword(ChangePasswordRequest request, Authentication connectedUser) {
@@ -47,7 +53,32 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ChangeEmailResponse changeEmail(ChangeEmailRequest request) {
-        return null;
+    public ChangeEmailResponse changeEmail(ChangeEmailRequest request, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+
+        if (repository.findByEmail(request.newEmail()).isPresent()){
+            throw new EmailAlreadyInUseException("Email is already in use");
+        }
+
+        if (!user.getEmail().equals(request.oldEmail())){
+            throw new OperationNotPermittedException("You can not change email of the account you don't own.");
+        }
+
+        if (request.oldEmail().equals(request.newEmail())){
+            throw new BadCredentialsException("New email must be different from the old one");
+        }
+
+        if (!request.newEmail().equals(request.newEmailConf())){
+            throw new BadCredentialsException("New email confirmation is invalid");
+        }
+
+        user.setEmail(request.newEmail());
+        repository.save(user);
+
+        String token = jwtService.generateToken(new HashMap<>(), user);
+
+        return ChangeEmailResponse.builder()
+                .jwt(token)
+                .build();
     }
 }

@@ -45,4 +45,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(exception.getMessage());
     }
+
+    @ExceptionHandler(EmailAlreadyInUseException.class)
+    public ResponseEntity<String> handle(EmailAlreadyInUseException exception){
+        return ResponseEntity.badRequest()
+                .body(exception.getMessage());
+    }
+
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<String> handle(OperationNotPermittedException exception){
+        return ResponseEntity.badRequest()
+                .body(exception.getMessage());
+    }
 }

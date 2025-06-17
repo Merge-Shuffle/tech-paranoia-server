@@ -27,10 +27,11 @@ public class UserController {
         return ResponseEntity.ok(userService.changePassword(request, connectedUser));
     }
 
-    @PostMapping
+    @PostMapping("/change-email")
     public ResponseEntity<?> changeEmail(
-            @RequestBody @Valid ChangeEmailRequest request
+            @RequestBody @Valid ChangeEmailRequest request,
+            Authentication connectedUser
     ) {
-        return null;
+        return ResponseEntity.ok(userService.changeEmail(request, connectedUser));
     }
 }
