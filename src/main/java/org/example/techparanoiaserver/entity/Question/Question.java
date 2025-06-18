@@ -1,5 +1,6 @@
 package org.example.techparanoiaserver.entity.Question;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.example.techparanoiaserver.entity.user.UserQuestion;
@@ -45,6 +46,7 @@ public class Question {
     private List<AdditionalSource> additionalSources;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<UserQuestion> user;
 
 }

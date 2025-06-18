@@ -2,6 +2,7 @@ package org.example.techparanoiaserver.entity.Question;
 
 import lombok.RequiredArgsConstructor;
 import org.example.techparanoiaserver.request.QuestionCreateRequest;
+import org.example.techparanoiaserver.response.QuestionResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,5 +35,15 @@ public class QuestionMapper {
         dst.setAdditionalSources(mappedSources);
 
         return dst;
+    }
+
+    public QuestionResponse toResponse(Question question){
+        return QuestionResponse.builder()
+                .questionId(question.getId())
+                .title(question.getTitle())
+                .tags(question.getTags())
+                .difficulty(question.getDifficulty())
+                .category(question.getCategory())
+                .build();
     }
 }
