@@ -2,10 +2,7 @@ package org.example.techparanoiaserver.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.example.techparanoiaserver.entity.Question.Question;
 
 import java.time.LocalDateTime;
@@ -17,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class UserQuestion {
 
     @Id
