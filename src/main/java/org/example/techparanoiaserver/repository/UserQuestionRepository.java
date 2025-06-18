@@ -27,5 +27,5 @@ public interface UserQuestionRepository extends JpaRepository<UserQuestion, UUID
                 AND userQuestion.question.id=:questionId
             """
     )
-    Optional<UserQuestion> findByQuestionAndUserId(UUID userId, UUID questionId);
+    Optional<UserQuestion> findByUserAndQuestionId(UUID userId, UUID questionId);
 }
