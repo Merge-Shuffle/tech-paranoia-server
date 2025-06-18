@@ -5,5 +5,7 @@ import org.springframework.security.core.Authentication;
 import java.util.UUID;
 
 public interface UserQuestionService {
-    String addQuestionToUser(UUID questionId, Authentication connectedUser);
+    UUID addQuestionToUser(UUID questionId, Authentication connectedUser);
+
+    UUID deleteQuestionFromUser(UUID questionId, Authentication connectedUser);
 }

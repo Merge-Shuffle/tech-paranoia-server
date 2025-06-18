@@ -1,5 +1,6 @@
 package org.example.techparanoiaserver.service.userquestion;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.techparanoiaserver.entity.Question.Question;
 import org.example.techparanoiaserver.entity.user.User;
@@ -20,7 +21,7 @@ public class UserQuestionServiceImpl implements UserQuestionService{
     private final QuestionService questionService;
 
     @Override
-    public String addQuestionToUser(UUID questionId, Authentication connectedUser) {
+    public UUID addQuestionToUser(UUID questionId, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         Question question = questionService.getQuestionById(questionId);
 
@@ -30,6 +31,15 @@ public class UserQuestionServiceImpl implements UserQuestionService{
                 .addedAt(LocalDateTime.now())
                 .build();
 
-        return repository.save(userQuestion).getId().toString();
+        return repository.save(userQuestion).getId();
+    }
+
+    @Override
+    public UUID deleteQuestionFromUser(UUID questionId, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        UserQuestion userQuestion = repository.findByQuestionAndUserId(user.getId(), questionId)
+                .orElseThrow(() -> new EntityNotFoundException("There's no question " + questionId + " connected to user with id " + user.getId()));
+        repository.delete(userQuestion);
+        return userQuestion.getId();
     }
 }

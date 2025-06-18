@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface UserQuestionRepository extends JpaRepository<UserQuestion, UUID> {
@@ -17,4 +18,14 @@ public interface UserQuestionRepository extends JpaRepository<UserQuestion, UUID
             """
     )
     Page<UserQuestion> findAllByUserId(UUID userId, Pageable pageable);
+
+    @Query(
+            """
+                SELECT userQuestion
+                FROM UserQuestion userQuestion
+                WHERE userQuestion.user.id=:userId
+                AND userQuestion.question.id=:questionId
+            """
+    )
+    Optional<UserQuestion> findByQuestionAndUserId(UUID userId, UUID questionId);
 }
