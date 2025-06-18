@@ -1,20 +1,24 @@
 package org.example.techparanoiaserver.service.Question;
 
+import org.example.techparanoiaserver.common.PageResponse;
 import org.example.techparanoiaserver.entity.Question.Category;
 import org.example.techparanoiaserver.entity.Question.Question;
 import org.example.techparanoiaserver.entity.Question.QuestionMapper;
+import org.example.techparanoiaserver.entity.user.User;
 import org.example.techparanoiaserver.exception.NoQuestionMatchingIdFoundException;
 import org.example.techparanoiaserver.exception.QuestionTitleInUseException;
 import org.example.techparanoiaserver.repository.Question.QuestionRepository;
 import org.example.techparanoiaserver.request.QuestionCreateRequest;
+import org.example.techparanoiaserver.response.QuestionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-//todo: handle title duplication
 
 @Service
 public class QuestionServiceImpl implements QuestionService{
@@ -80,6 +84,13 @@ public class QuestionServiceImpl implements QuestionService{
         Question question = getQuestionById(id);
         question = questionMapper.updateProperties(request, question);
         return questionRepository.save(question);
+    }
+
+    @Override
+    public PageResponse<QuestionResponse> getQuestionsByUser(User user) {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Question> questions = questionRepository.findQuestionByUserId(user.getId(), pageable);
+        return null;
     }
 
 

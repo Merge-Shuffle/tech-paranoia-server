@@ -2,6 +2,8 @@ package org.example.techparanoiaserver.repository.Question;
 
 import org.example.techparanoiaserver.entity.Question.Category;
 import org.example.techparanoiaserver.entity.Question.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +24,6 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
     List<Question> findAllByCategory(Category category);
 
     Optional<Question> findByTitleAndCategory(String title, Category category);
+
+    Page<Question> findQuestionByUserId(UUID id, Pageable pageable);
 }

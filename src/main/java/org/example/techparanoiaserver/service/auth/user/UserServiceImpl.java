@@ -3,13 +3,20 @@ package org.example.techparanoiaserver.service.auth.user;
 import lombok.RequiredArgsConstructor;
 import org.example.techparanoiaserver.config.jwt.JwtService;
 import org.example.techparanoiaserver.entity.user.User;
+import org.example.techparanoiaserver.entity.user.UserQuestion;
 import org.example.techparanoiaserver.exception.EmailAlreadyInUseException;
 import org.example.techparanoiaserver.exception.OperationNotPermittedException;
+import org.example.techparanoiaserver.repository.UserQuestionRepository;
 import org.example.techparanoiaserver.repository.user.UserRepository;
 import org.example.techparanoiaserver.request.ChangeEmailRequest;
 import org.example.techparanoiaserver.request.ChangePasswordRequest;
 import org.example.techparanoiaserver.response.ChangeEmailResponse;
 import org.example.techparanoiaserver.response.ChangePasswordResponse;
+import org.example.techparanoiaserver.response.UserResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +30,8 @@ public class UserServiceImpl implements UserService{
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final UserMapper userMapper;
+    private final UserQuestionRepository userQuestionRepository;
 
     @Override
     public ChangePasswordResponse changePassword(ChangePasswordRequest request, Authentication connectedUser) {
@@ -81,4 +90,13 @@ public class UserServiceImpl implements UserService{
                 .jwt(token)
                 .build();
     }
+
+    @Override
+    public UserResponse getUserDetails(Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("addedAt").descending());
+        Page<UserQuestion> userQuestions = userQuestionRepository.findAllByUserId(user.getId(), pageable);
+        return userMapper.toResponse(user, userQuestions);
+    }
+
 }
