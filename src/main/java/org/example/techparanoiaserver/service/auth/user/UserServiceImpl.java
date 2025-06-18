@@ -113,6 +113,7 @@ public class UserServiceImpl implements UserService{
                 .lastName(savedUser.getLastName())
                 .email(savedUser.getEmail())
                 .userId(savedUser.getId())
+                .dateOfBirth(savedUser.getDateOfBirth())
                 .build();
     }
 
