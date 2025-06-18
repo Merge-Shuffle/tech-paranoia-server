@@ -2,8 +2,10 @@ package org.example.techparanoiaserver.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.techparanoiaserver.request.ChangeDetailsRequest;
 import org.example.techparanoiaserver.request.ChangeEmailRequest;
 import org.example.techparanoiaserver.request.ChangePasswordRequest;
+import org.example.techparanoiaserver.response.ChangeDetailsResponse;
 import org.example.techparanoiaserver.service.auth.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -35,5 +37,13 @@ public class UserController {
             Authentication connectedUser
     ) {
         return ResponseEntity.ok(userService.changeEmail(request, connectedUser));
+    }
+
+    @PatchMapping("/change-details")
+    public ResponseEntity<ChangeDetailsResponse> changeUserDetails(
+            @RequestBody @Valid ChangeDetailsRequest request,
+            Authentication connectedUser
+    ){
+        return ResponseEntity.ok(userService.changeUserDetails(request, connectedUser));
     }
 }

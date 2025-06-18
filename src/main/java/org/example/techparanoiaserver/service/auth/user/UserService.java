@@ -1,7 +1,9 @@
 package org.example.techparanoiaserver.service.auth.user;
 
+import org.example.techparanoiaserver.request.ChangeDetailsRequest;
 import org.example.techparanoiaserver.request.ChangeEmailRequest;
 import org.example.techparanoiaserver.request.ChangePasswordRequest;
+import org.example.techparanoiaserver.response.ChangeDetailsResponse;
 import org.example.techparanoiaserver.response.ChangeEmailResponse;
 import org.example.techparanoiaserver.response.ChangePasswordResponse;
 import org.example.techparanoiaserver.response.UserResponse;
@@ -11,4 +13,6 @@ public interface UserService {
     ChangePasswordResponse changePassword(ChangePasswordRequest request, Authentication connectedUser);
     ChangeEmailResponse changeEmail(ChangeEmailRequest request, Authentication connectedUser);
     UserResponse getUserDetails(Authentication connectedUser);
+
+    ChangeDetailsResponse changeUserDetails(ChangeDetailsRequest request, Authentication connectedUser);
 }

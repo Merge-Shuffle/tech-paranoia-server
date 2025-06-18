@@ -8,8 +8,10 @@ import org.example.techparanoiaserver.exception.EmailAlreadyInUseException;
 import org.example.techparanoiaserver.exception.OperationNotPermittedException;
 import org.example.techparanoiaserver.repository.UserQuestionRepository;
 import org.example.techparanoiaserver.repository.user.UserRepository;
+import org.example.techparanoiaserver.request.ChangeDetailsRequest;
 import org.example.techparanoiaserver.request.ChangeEmailRequest;
 import org.example.techparanoiaserver.request.ChangePasswordRequest;
+import org.example.techparanoiaserver.response.ChangeDetailsResponse;
 import org.example.techparanoiaserver.response.ChangeEmailResponse;
 import org.example.techparanoiaserver.response.ChangePasswordResponse;
 import org.example.techparanoiaserver.response.UserResponse;
@@ -97,6 +99,21 @@ public class UserServiceImpl implements UserService{
         Pageable pageable = PageRequest.of(0, 10, Sort.by("addedAt").descending());
         Page<UserQuestion> userQuestions = userQuestionRepository.findAllByUserId(user.getId(), pageable);
         return userMapper.toResponse(user, userQuestions);
+    }
+
+    @Override
+    public ChangeDetailsResponse changeUserDetails(ChangeDetailsRequest request, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        user.setFirstName(request.firstName());
+        user.setLastName(request.lastName());
+        user.setDateOfBirth(request.dateOfBirth());
+        User savedUser = repository.save(user);
+        return ChangeDetailsResponse.builder()
+                .firstName(savedUser.getFirstName())
+                .lastName(savedUser.getLastName())
+                .email(savedUser.getEmail())
+                .userId(savedUser.getId())
+                .build();
     }
 
 }
